@@ -1,7 +1,9 @@
 #!/bin/bash
 
+trap "echo SIGINT was trapped; docker container stop ${cname}; exit 0" SIGINT
+
 iname=${DOCKER_IMAGE:-"irslrepo/novnc:20.04"} ##
-cname=${DOCKER_CONTAINER:-"browser_novnc"} ## name of container (should be same as in exec.sh)
+cname=${DOCKER_CONTAINER:-"browser_vnc"} ## name of container (should be same as in exec.sh)
 
 xhost +si:localuser:root
 
@@ -9,6 +11,7 @@ docker rm ${cname}
 
 docker run \
     --privileged \
+    --sig-proxy=true \
     --gpus 'all,"capabilities=compute,graphics,utility,display"' \
     --net=host \
     --env="NOVNC_WEB_PORT=6080" \
@@ -17,7 +20,9 @@ docker run \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     --name=${cname} \
-    ${iname}
+    ${iname} &
+
+wait $!
 
 ##xhost -local:root
 
