@@ -1,9 +1,9 @@
 #!/bin/bash
 
-trap "echo SIGINT was trapped; docker container stop ${cname}; exit 0" SIGINT
-
 iname=${DOCKER_IMAGE:-"irslrepo/novnc:20.04"} ##
 cname=${DOCKER_CONTAINER:-"browser_vnc"} ## name of container (should be same as in exec.sh)
+
+trap "echo SIGINT was trapped; docker container stop ${cname}; exit 0" SIGINT
 
 xhost +si:localuser:root
 
