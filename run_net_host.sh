@@ -1,6 +1,6 @@
 #!/bin/bash
 
-iname=${DOCKER_IMAGE:-"irslrepo/novnc:20.04"} ##
+iname=${DOCKER_IMAGE:-"irslrepo/browser_vnc:20.04"} ##
 cname=${DOCKER_CONTAINER:-"browser_vnc"} ## name of container (should be same as in exec.sh)
 
 trap "echo SIGINT was trapped; docker container stop ${cname}; exit 0" SIGINT
@@ -23,6 +23,9 @@ docker run \
     ${iname} &
 
 wait $!
+exit_docker="$?"
+echo "!!!!! docker exited: ${exit_docker} !!!!!"
+exit ${exit_docker}
 
 ##xhost -local:root
 
