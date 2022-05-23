@@ -43,7 +43,7 @@ If a gamepad is connected to PC2,
 ## Run (just Docker local)
 
 ```
-docker run --name browser_vnc --publish 6080:80 novnc
+docker run --name browser_vnc --publish 6080:80 irslrepo/browser_vnc:20.04
 ```
 
 Acces to http://localhost:6080
@@ -51,5 +51,5 @@ Acces to http://localhost:6080
 
 You can access the X server through a docker-console.
 ```
-docker exec -it novnc bash
+docker exec -it browser_vnc bash
 ```
