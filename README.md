@@ -43,7 +43,7 @@ If a gamepad is connected to PC2,
 ## Run (just Docker local)
 
 ```
-docker run --name novnc --publish 6080:80 novnc
+docker run --name browser_vnc --publish 6080:80 novnc
 ```
 
 Acces to http://localhost:6080
