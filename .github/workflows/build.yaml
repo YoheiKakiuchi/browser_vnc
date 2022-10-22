@@ -1,0 +1,36 @@
+name: BuildBase
+run-name: ${{ github.actor }} is building base image
+#
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 1 1,15 * *'
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        ubuntu: [ 20.04 ]
+    runs-on: self-hosted
+    env:
+      IMAGE_NAME: browser_vnc
+#      DOCKER_LOCAL: ghcr.io/
+#      DOCKER_LOCAL: repo.irsl.eiiris.tut.ac.jp/
+      DOCKER_DEPLOY: repo.irsl.eiiris.tut.ac.jp/
+    steps:
+      - name: Check out repository code(src)
+        uses: actions/checkout@v3
+      - name: Check Build 1st
+        run: >
+          docker build . -f Dockerfile.novnc --pull
+          --build-arg BASE_IMAGE=ubuntu:${{ matrix.ubuntu }}
+          -t actions/browser_vnc:${{ matrix.ubuntu }}
+      - name: Deploy
+        if: ${{ github.event_name != 'pull_request' }}
+        run: |
+          docker tag actions/browser_vnc:${{ matrix.ubuntu }} ${{ env.DOCKER_DEPLOY }}${{ env.IMAGE_NAME }}:${{ matrix.ubuntu }}
+          docker push ${{ env.DOCKER_DEPLOY }}${{ env.IMAGE_NAME }}:${{ matrix.ubuntu }}
