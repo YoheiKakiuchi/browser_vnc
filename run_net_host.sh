@@ -1,6 +1,11 @@
 #!/bin/bash
 
-iname=${DOCKER_IMAGE:-"irslrepo/browser_vnc:20.04"} ##
+# REPO=irslrepo/
+REPO=repo.irsl.eiiris.tut.ac.jp/
+# UBUNTU_VER=22.04
+UBUNTU_VER=20.04
+
+iname=${DOCKER_IMAGE:-"${REPO}/browser_vnc:${UBUNTU_VER}"} ##
 cname=${DOCKER_CONTAINER:-"browser_vnc"} ## name of container (should be same as in exec.sh)
 
 trap "echo SIGINT was trapped; docker container stop ${cname}; exit 0" SIGINT
