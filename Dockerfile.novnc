@@ -29,14 +29,14 @@ RUN wget -q https://jaist.dl.sourceforge.net/project/turbovnc/${TURBOVNC_VERSION
     dpkg -i turbovnc_${TURBOVNC_VERSION}_amd64.deb  && \
     rm -rf turbovnc_${TURBOVNC_VERSION}_amd64.deb
 
-ARG VIRTUALGL_VERSION=3.1
-RUN apt-get update -q -qq && \
-    apt-get install -q -qq -y --no-install-recommends libxtst6 libxv1 libglu1-mesa libegl1-mesa \
-    && rm -rf /var/lib/apt/lists/*
-RUN wget -q https://jaist.dl.sourceforge.net/project/virtualgl/${VIRTUALGL_VERSION}/virtualgl_${VIRTUALGL_VERSION}_amd64.deb && \
-    dpkg -i virtualgl_${VIRTUALGL_VERSION}_amd64.deb && \
-    vglserver_config -config +s +f -t && \
-    rm -rf virtualgl_${VIRTUALGL_VERSION}_amd64.deb
+# ARG VIRTUALGL_VERSION=3.1
+# RUN apt-get update -q -qq && \
+#     apt-get install -q -qq -y --no-install-recommends libxtst6 libxv1 libglu1-mesa libegl1-mesa \
+#     && rm -rf /var/lib/apt/lists/*
+# RUN wget -q https://jaist.dl.sourceforge.net/project/virtualgl/${VIRTUALGL_VERSION}/virtualgl_${VIRTUALGL_VERSION}_amd64.deb && \
+#     dpkg -i virtualgl_${VIRTUALGL_VERSION}_amd64.deb && \
+#     vglserver_config -config +s +f -t && \
+#     rm -rf virtualgl_${VIRTUALGL_VERSION}_amd64.deb
 
 RUN pip3 install -U setuptools wheel
 RUN pip3 install -U websockify
