@@ -5,7 +5,7 @@ REPO=repo.irsl.eiiris.tut.ac.jp/
 # UBUNTU_VER=22.04
 UBUNTU_VER=20.04
 
-iname=${DOCKER_IMAGE:-"${REPO}/browser_vnc:${UBUNTU_VER}"} ##
+iname=${DOCKER_IMAGE:-"${REPO}browser_vnc:${UBUNTU_VER}"} ##
 cname=${DOCKER_CONTAINER:-"browser_vnc"} ## name of container (should be same as in exec.sh)
 
 trap "echo SIGINT was trapped; docker container stop ${cname}; exit 0" SIGINT
@@ -20,6 +20,7 @@ docker run \
     --gpus 'all,"capabilities=compute,graphics,utility,display"' \
     --net=host \
     --env="NOVNC_WEB_PORT=6080" \
+    --env="WEBSOCKIFY_AUTH=__user__:__passwd__" \
     --env="DISPLAY=:1" \
     --env="VGL_DISPLAY=:0" \
     --env="QT_X11_NO_MITSHM=1" \
