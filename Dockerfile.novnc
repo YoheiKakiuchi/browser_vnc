@@ -44,7 +44,7 @@ RUN pip3 install -U websockify
 COPY app/ /app
 COPY html /novnc
 
-ENV DISPLAY=:0 NOVNC_WEB_PORT=80
+ENV DISPLAY=:0 NOVNC_WEB_PORT=80 WEBSOCKIFY_AUTH=user:pass
 
 EXPOSE 80
 

@@ -20,12 +20,13 @@ docker run \
     --gpus 'all,"capabilities=compute,graphics,utility,display"' \
     --net=host \
     --env="NOVNC_WEB_PORT=6080" \
+    --env="WEBSOCKIFY_AUTH=__user__:__passwd__" \
     --env="DISPLAY=:1" \
     --env="VGL_DISPLAY=:0" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     --name=${cname} \
-    ${iname} &
+    ${iname} supervisord -c /app/supervisord.auth.conf &
 
 wait $!
 exit_docker="$?"
