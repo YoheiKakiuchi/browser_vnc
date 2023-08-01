@@ -21,6 +21,7 @@ jobs:
 #      DOCKER_LOCAL: ghcr.io/
 #      DOCKER_LOCAL: repo.irsl.eiiris.tut.ac.jp/
       DOCKER_DEPLOY: repo.irsl.eiiris.tut.ac.jp/
+      DOCKER_HUB: irslrepo/
     steps:
       - name: Check out repository code(src)
         uses: actions/checkout@v3
@@ -34,3 +35,14 @@ jobs:
         run: |
           docker tag actions/browser_vnc:${{ matrix.ubuntu }} ${{ env.DOCKER_DEPLOY }}${{ env.IMAGE_NAME }}:${{ matrix.ubuntu }}
           docker push ${{ env.DOCKER_DEPLOY }}${{ env.IMAGE_NAME }}:${{ matrix.ubuntu }}
+      - name: Log in to Docker Hub
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASS }}
+      - name: Deploy(HUB)
+        if: ${{ github.event_name != 'pull_request' }}
+        run: |
+          docker tag actions/browser_vnc:${{ matrix.ubuntu }} ${{ env.DOCKER_HUB }}${{ env.IMAGE_NAME }}:${{ matrix.ubuntu }}
+          docker push ${{ env.DOCKER_HUB }}${{ env.IMAGE_NAME }}:${{ matrix.ubuntu }}
